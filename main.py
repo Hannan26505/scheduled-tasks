@@ -18,6 +18,9 @@ response = requests.get(
     "https://api.openweathermap.org/data/2.5/forecast",
     params=params
 )
+
+print(response.status_code)
+print(response.text)
 response.raise_for_status()
 weather_data=response.json()
 new_one=[]
