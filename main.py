@@ -4,8 +4,8 @@ import json
 from twilio.rest import Client
 
 API_KEY ="58e7e7f4a35a57a906aaaf4a5ecce5e4" # os.environ.get("OWM_API_key")
-account_sid = os.environ.get("account_sid")
-auth_token = os.environ.get("OWM_auth_key")
+account_sid = "AC75ba6d12c9c0b32b5643434b541157ac"
+auth_token = "9be962c868beffdd5d05962dc62aafc7"
 
 params = {
     "lat": 29.963659,
