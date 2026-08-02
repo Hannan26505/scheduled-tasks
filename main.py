@@ -3,7 +3,7 @@ import requests
 import json
 from twilio.rest import Client
 
-API_KEY = os.environ.get("OWM_API_key")
+API_KEY ="58e7e7f4a35a57a906aaaf4a5ecce5e4" # os.environ.get("OWM_API_key")
 account_sid = os.environ.get("account_sid")
 auth_token = os.environ.get("OWM_auth_key")
 
