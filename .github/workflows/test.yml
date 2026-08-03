@@ -23,8 +23,6 @@ jobs:
 
       - name: Check secrets are configured
         env:
-          MY_EMAIL: ${{ secrets.MY_EMAIL }}
-          MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
           OWM_API_key: ${{ secrets.OWM_API_key }}
           NEW_SID: ${{ secrets.NEW_SID }}
           NEW_AUTH_KEY: ${{ secrets.NEW_AUTH_KEY }}
