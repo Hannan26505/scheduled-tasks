@@ -40,13 +40,6 @@ if will_rain:
     )
 
     print(message.status)
-else:
-    client = Client(account_sid, auth_token)
-    message = client.messages.create(
-        body="It's not going to rain today. Have Fun",
-        from_='+17753738109',
-        to='+919058721930'
-    )
-    print(message.status)
+
 
 
