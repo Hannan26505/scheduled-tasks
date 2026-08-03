@@ -3,9 +3,9 @@ import requests
 import json
 from twilio.rest import Client
 
-API_KEY ="58e7e7f4a35a57a906aaaf4a5ecce5e4" # os.environ.get("OWM_API_key")
-account_sid = "AC75ba6d12c9c0b32b5643434b541157ac"
-auth_token = "9be962c868beffdd5d05962dc62aafc7"
+API_KEY = "58e7e7f4a35a57a906aaaf4a5ecce5e4"#os.environ.get("OWM_API_key")
+account_sid = "AC75ba6d12c9c0b32b5643434b541157ac"#os.environ.get("account_sid")
+auth_token = "651c4ef4a071c0439bf5fb2d8e77e41d"#os.environ.get("OWM_auth_key")
 
 params = {
     "lat": 29.963659,
@@ -18,9 +18,6 @@ response = requests.get(
     "https://api.openweathermap.org/data/2.5/forecast",
     params=params
 )
-
-print(response.status_code)
-print(response.text)
 response.raise_for_status()
 weather_data=response.json()
 new_one=[]
@@ -40,6 +37,13 @@ if will_rain:
     )
 
     print(message.status)
-
+else:
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        body="It's not going to rain today. Have Fun",
+        from_='+17753738109',
+        to='+919058721930'
+    )
+    print(message.status)
 
 
