@@ -1,11 +1,20 @@
 name: Test Setup
 
 on:
-  workflow_dispatch:  # Manual trigger only
+  workflow_dispatch:   # Manual Run workflow button
+
+  schedule:
+    # Runs every day at 9:00 UTC
+    - cron: "0 9 * * *"
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    env:
+      OWM_API_key: ${{ secrets.OWM_API_key }}
+      NEW_SID: ${{ secrets.NEW_SID }}
+      NEW_AUTH_KEY: ${{ secrets.NEW_AUTH_KEY }}
 
     steps:
       - name: Checkout repository
@@ -14,7 +23,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
@@ -22,65 +31,27 @@ jobs:
           pip install -r requirements.txt
 
       - name: Check secrets are configured
-        env:
-          OWM_API_key: ${{ secrets.OWM_API_key }}
-          NEW_SID: ${{ secrets.NEW_SID }}
-          NEW_AUTH_KEY: ${{ secrets.NEW_AUTH_KEY }}
         run: |
-          if [ -z "$MY_EMAIL" ]; then
-            echo "MY_EMAIL secret is not set!"
-            echo "Go to Settings > Secrets > Actions and add it."
+          if [ -z "$OWM_API_key" ]; then
+            echo "❌ OpenWeather API key is missing"
             exit 1
           else
-            echo "MY_EMAIL is configured"
+            echo "✅ OpenWeather API key is configured"
           fi
 
-          if [ -z "$MY_PASSWORD" ]; then
-            echo "MY_PASSWORD secret is not set!"
-            echo "Go to Settings > Secrets > Actions and add it."
+          if [ -z "$NEW_SID" ]; then
+            echo "❌ Twilio SID is missing"
             exit 1
           else
-            echo "MY_PASSWORD is configured"
+            echo "✅ Twilio SID is configured"
           fi
 
-          echo ""
-          echo "All secrets are configured!"
-
-      - name: Check required files exist
-        run: |
-          echo "Checking for required files..."
-
-          if [ -f "main.py" ]; then
-            echo "main.py found"
-          else
-            echo "main.py not found!"
+          if [ -z "$NEW_AUTH_KEY" ]; then
+            echo "❌ Twilio Auth Token is missing"
             exit 1
-          fi
-
-          if [ -f "requirements.txt" ]; then
-            echo "requirements.txt found"
           else
-            echo "requirements.txt not found!"
-            exit 1
+            echo "✅ Twilio Auth Token is configured"
           fi
 
-          if [ -f "birthdays.csv" ]; then
-            echo "birthdays.csv found"
-          else
-            echo "birthdays.csv not found!"
-            exit 1
-          fi
-
-          echo ""
-          echo "All required files found!"
-
-      - name: Test Python syntax
-        run: python -m py_compile main.py && echo "Python syntax OK"
-
-      - name: Success
-        run: |
-          echo ""
-          echo "========================================"
-          echo "  All checks passed!"
-          echo "  Your setup is ready to go."
-          echo "========================================"
+      - name: Run weather script
+        run: python main.py
