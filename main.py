@@ -1,11 +1,13 @@
+from dotenv import load_dotenv
 import os
 import requests
 import json
 from twilio.rest import Client
+load_dotenv()
 
-API_KEY = "58e7e7f4a35a57a906aaaf4a5ecce5e4"#os.environ.get("OWM_API_key")
-account_sid = "AC75ba6d12c9c0b32b5643434b541157ac"#os.environ.get("account_sid")
-auth_token = "651c4ef4a071c0439bf5fb2d8e77e41d"#os.environ.get("OWM_auth_key")
+API_KEY = os.getenv("OWM_API_key")#"58e7e7f4a35a57a906aaaf4a5ecce5e4"
+account_sid = os.getenv("NEW_SID")#"AC75ba6d12c9c0b32b5643434b541157ac"
+auth_token = os.getenv("NEW_AUTH_KEY")#"651c4ef4a071c0439bf5fb2d8e77e41d"
 
 params = {
     "lat": 29.963659,
@@ -45,5 +47,3 @@ else:
         to='+919058721930'
     )
     print(message.status)
-
-
